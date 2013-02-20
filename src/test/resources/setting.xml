@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<beanio xmlns="http://www.beanio.org/2012/03" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.beanio.org/2012/03 http://www.beanio.org/2012/03/mapping.xsd">
+
+
+	<stream name="employeeFile" format="csv">
+		<record name="header" class="map" ridLength="0-2">
+			<field name="id" rid="true" maxOccurs="1" literal="Header" />
+			<field name="date" />
+		</record>
+		<record name="employee" class="com.triquesta.tesl.rmw.parser.Employee"
+			ridLength="5">
+			<field name="firstName" />
+			<field name="lastName" />
+			<field name="title" />
+			<field name="salary" />
+			<field name="hireDate" format="MMddyyyy" />
+		</record>
+
+		<record name="trailer" class="map" ridLength="2">
+			<field name="id" />
+			<field name="count" />
+		</record>
+	</stream>
+
+	<stream name="updateBankRecord" format="delimited">
+		<parser>
+			<property name="delimiter" value="~" />
+		</parser>
+		<record name="header" class="map" ridLength="0-2">
+			<field name="id" rid="true" maxOccurs="1" literal="***" />
+			<field name="remarks" />
+		</record>
+		<record name="BankRecordHeader" class="com.triquesta.tesl.rmw.parser.BankRecordHeader"
+			ridLength="7">
+			<field name="cisKey" />
+			<field name="name" />
+			<field name="parentCISKey" />
+			<field name="parentName" />
+			<field name="rm" />
+			<field name="crg" />
+			<field name="country" />
+		</record>
+		<record name="BankRecordDetail" class="com.triquesta.tesl.rmw.parser.BankRecordDetail"
+			ridLength="13">
+			<field name="cisKey" />
+			<field name="recordType" />
+			<field name="facilityId" />
+			<field name="subFacilityId" required="false" />
+			<field name="type" />
+			<field name="groupLimitFlag" />
+			<field name="groupLimitParentFacilityId" required="false"/>
+			<field name="limitAmount"  />
+			<field name="limitCurrency" />
+			<field name="originalLimit" />
+			<field name="originalLimitCurrency" />
+			<field name="tempLimitExpiryDate" format="yyyymmdd" />
+			<field name="originalLimitMaturity" format="yyyymmdd" />
+		</record>
+		<record name="trailer" class="map">
+			<field name="id" rid="true" maxOccurs="1" literal="###" />
+			<field name="remarks" />
+		</record>
+	</stream>
+</beanio>
